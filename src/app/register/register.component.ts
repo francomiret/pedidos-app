@@ -13,9 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
   standalone: true,
   imports: [
     CommonModule,
@@ -26,7 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatButtonModule,
   ],
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   public loginForm: FormGroup = new FormGroup({});
 
   public email = new FormControl('', [Validators.required, Validators.email]);

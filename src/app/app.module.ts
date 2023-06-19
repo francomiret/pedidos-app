@@ -6,18 +6,25 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './register/register.component';
+import { ShellComponent } from './shell/shell.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+
+const matModules = [MatButtonModule, MatToolbarModule, MatIconModule]
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent,],
   imports: [
-    BrowserModule,
+    BrowserModule, LoginComponent, RegisterComponent, ShellComponent,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    ReactiveFormsModule,
+    BrowserAnimationsModule, matModules,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
