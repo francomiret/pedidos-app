@@ -1,1 +1,29 @@
-<router-outlet> </router-outlet>
+<mat-toolbar color="primary" class="md-hue-2">
+  <button
+    mat-icon-button
+    class="example-icon"
+    (click)="sidenav.toggle()"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  Pedidos App
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-content">
+  <mat-sidenav #sidenav mode="over">
+    <mat-selection-list [multiple]="false">
+      <mat-list-item [routerLink]="['/pedidos']" role="listitem"
+        >Pedidos</mat-list-item
+      >
+      <mat-list-item [routerLink]="['/productos']" role="listitem"
+        >Productos</mat-list-item
+      >
+      <mat-list-item [routerLink]="['/clientes']" role="listitem"
+        >Clientes</mat-list-item
+      >
+    </mat-selection-list>
+  </mat-sidenav>
+
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
