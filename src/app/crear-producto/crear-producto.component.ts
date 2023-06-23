@@ -7,10 +7,9 @@ import { read, utils } from 'xlsx';
 })
 export class CrearProductoComponent {
   public convertedJSON!: string;
-  $events: any;
+  public data!: unknown[];
 
   public fileUpload(event: any) {
-    console.log(event)
     const selectedFiles = event.target.files[0];
     const fileReader = new FileReader();
     fileReader.readAsBinaryString(selectedFiles);
@@ -18,8 +17,20 @@ export class CrearProductoComponent {
       let binaryData = event.target.result;
       let workbook = read(binaryData, { type: 'binary' });
       workbook.SheetNames.forEach((sheet) => {
-        const data = utils.sheet_to_json(workbook.Sheets[sheet]);
-        this.convertedJSON = JSON.stringify(data, undefined, 4);
+        const data = utils
+          .sheet_to_json(workbook.Sheets[sheet])
+          .map((x: any) => {
+            return {
+              descripcion: x['Descripción'],
+              final: x['Final'],
+            };
+          });
+
+        // this.data = data;
+        this.convertedJSON = JSON.stringify(data);
+        localStorage.setItem('marquitosData', this.convertedJSON);
+
+        this.data = JSON.parse(this.convertedJSON);
       });
     };
   }

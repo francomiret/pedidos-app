@@ -6,19 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
-export interface UserData {
-  id: string;
-  nombre: string;
-  precio: number;
-}
-
-const NAMES: string[] = [
-  'Speed coinm nombre largo',
-  'Vodka',
-  'IPA',
-  'Absolute',
-];
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-productos',
@@ -33,21 +21,26 @@ const NAMES: string[] = [
     MatTableModule,
     MatInputModule,
     MatFormFieldModule,
+    CommonModule,
   ],
 })
 export class ProductosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'nombre', 'precio'];
-  dataSource: MatTableDataSource<UserData>;
-
+  displayedColumns: string[] = ['descripcion', 'final'];
+  dataSource: MatTableDataSource<unknown>;
+  lSData = [];
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   constructor() {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
+    let productos = [];
+    if (!!localStorage.getItem('marquitosData')) {
+      const localStorageData = localStorage.getItem('marquitosData') ?? '';
+      this.lSData = JSON.parse(localStorageData);
+      productos = JSON.parse(localStorageData);
+    }
 
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource(productos);
   }
 
   ngAfterViewInit() {
@@ -63,19 +56,4 @@ export class ProductosComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: id.toString(),
-    nombre: name,
-    precio: 100 + id,
-  };
 }

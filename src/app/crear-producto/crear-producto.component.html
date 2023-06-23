@@ -12,4 +12,5 @@
 </form>
 
 <h1>JSON DATA</h1>
-<span *ngIf="!!convertedJSON">{{ convertedJSON }}</span>
+<pre *ngIf="!!convertedJSON"> convertedJSON{{ convertedJSON | json }}</pre>
+<pre *ngIf="!!data">data {{ data | json }}</pre>
