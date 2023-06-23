@@ -1,0 +1,17 @@
+.items {
+  display: flex;
+  align-items: center;
+}
+
+.icons {
+  margin-right: 10px;
+}
+
+.small-content {
+  text-align: center;
+  background-color: bisque;
+}
+
+.sidenav-content {
+  height: 100%;
+}
