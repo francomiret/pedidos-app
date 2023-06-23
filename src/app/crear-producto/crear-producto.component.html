@@ -1,1 +1,15 @@
-<p>crear-producto works!</p>
+<h2>Subir excel de productos</h2>
+
+<!-- Upload  -->
+<form id="file-upload-form" class="uploader">
+  <input
+    id="file-upload"
+    type="file"
+    name="fileUpload"
+    (change)="fileUpload($event)"
+    accept=".xls,.xlsx"
+  />
+</form>
+
+<h1>JSON DATA</h1>
+<span *ngIf="!!convertedJSON">{{ convertedJSON }}</span>
