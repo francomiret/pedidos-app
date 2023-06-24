@@ -1,12 +1,23 @@
 <div style="padding: 5px">
-  <a mat-raised-button color="primary" href="agregar-producto">
-    Agregar Producto
-  </a>
-  <mat-form-field style="margin-top: 10px" appearance="outline">
-    <mat-label>Buscar</mat-label>
-    <mat-icon matSuffix>search</mat-icon>
-    <input matInput (keyup)="applyFilter($event)" #input />
-  </mat-form-field>
+  <div style="margin: 10px">
+    <label for="images" class="drop-container">
+      <span class="drop-title">Subir excel de productos</span>
+      or
+      <input
+        type="file"
+        id="excel"
+        (change)="fileUpload($event)"
+        accept=".xls,.xlsx"
+      />
+    </label>
+  </div>
+  <div style="margin: 10px">
+    <mat-form-field style="width: 100%" appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input matInput (keyup)="applyFilter($event)" #input />
+    </mat-form-field>
+  </div>
 
   <div class="mat-elevation-z8" *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -40,7 +51,7 @@
     </table>
 
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSizeOptions]="[10, 25, 100]"
       aria-label="Select page of users"
     ></mat-paginator>
   </div>

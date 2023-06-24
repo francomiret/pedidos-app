@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { read, utils } from 'xlsx';
 
 @Component({
   selector: 'app-productos',
@@ -55,5 +56,29 @@ export class ProductosComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  public fileUpload(event: any) {
+    const selectedFiles = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsBinaryString(selectedFiles);
+    fileReader.onload = (event: any) => {
+      let binaryData = event.target.result;
+      let workbook = read(binaryData, { type: 'binary' });
+      workbook.SheetNames.forEach((sheet) => {
+        const data = utils
+          .sheet_to_json(workbook.Sheets[sheet])
+          .map((x: any) => {
+            return {
+              descripcion: x['Descripción'],
+              final: x['Final'],
+            };
+          });
+
+        // this.data = data;
+        const convertedJSON = JSON.stringify(data);
+        localStorage.setItem('marquitosData', convertedJSON);
+      });
+    };
   }
 }
