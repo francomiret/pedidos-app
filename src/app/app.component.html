@@ -13,14 +13,15 @@
 <mat-sidenav-container class="sidenav-content">
   <mat-sidenav #sidenav mode="over">
     <mat-selection-list [multiple]="false">
-      <mat-list-item [routerLink]="['/pedidos']" role="listitem"
-        >Pedidos</mat-list-item
+      <mat-list-item [routerLink]="['/pedidos']" role="listitem">
+        <mat-icon>list_alt</mat-icon> Pedidos</mat-list-item
       >
-      <mat-list-item [routerLink]="['/productos']" role="listitem"
-        >Productos</mat-list-item
+      <mat-list-item [routerLink]="['/productos']" role="listitem">
+        <mat-icon>inventory</mat-icon>
+        Productos</mat-list-item
       >
-      <mat-list-item [routerLink]="['/clientes']" role="listitem"
-        >Clientes</mat-list-item
+      <mat-list-item [routerLink]="['/clientes']" role="listitem">
+        <mat-icon>account_circle</mat-icon>Clientes</mat-list-item
       >
     </mat-selection-list>
   </mat-sidenav>

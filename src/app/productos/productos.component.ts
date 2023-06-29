@@ -28,7 +28,7 @@ import { read, utils } from 'xlsx';
 export class ProductosComponent implements AfterViewInit {
   displayedColumns: string[] = ['descripcion', 'final'];
   dataSource: MatTableDataSource<unknown>;
-  lSData = [];
+  convertedJSON = '';
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
@@ -36,7 +36,6 @@ export class ProductosComponent implements AfterViewInit {
     let productos = [];
     if (!!localStorage.getItem('marquitosData')) {
       const localStorageData = localStorage.getItem('marquitosData') ?? '';
-      this.lSData = JSON.parse(localStorageData);
       productos = JSON.parse(localStorageData);
     }
 
@@ -66,18 +65,19 @@ export class ProductosComponent implements AfterViewInit {
       let binaryData = event.target.result;
       let workbook = read(binaryData, { type: 'binary' });
       workbook.SheetNames.forEach((sheet) => {
-        const data = utils
+        const data: any[] = utils
           .sheet_to_json(workbook.Sheets[sheet])
-          .map((x: any) => {
+          .map((x: any, index: number) => {
             return {
+              id: index,
               descripcion: x['Descripción'],
               final: x['Final'],
             };
           });
 
-        // this.data = data;
-        const convertedJSON = JSON.stringify(data);
-        localStorage.setItem('marquitosData', convertedJSON);
+        this.convertedJSON = JSON.stringify(data);
+        localStorage.setItem('marquitosData', this.convertedJSON);
+        this.dataSource = new MatTableDataSource(data);
       });
     };
   }

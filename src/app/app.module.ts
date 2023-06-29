@@ -16,7 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductosComponent } from './productos/productos.component';
 import { ClientesComponent } from './clientes/clientes.component';
-import { CrearProductoComponent } from './crear-producto/crear-producto.component';
+import { CrearPedidoComponent } from './crear-pedido/crear-pedido.component';
 
 const matModules = [
   MatButtonModule,
@@ -27,14 +27,11 @@ const matModules = [
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PedidosComponent,
-    ClientesComponent,
-    CrearProductoComponent,
-  ],
+  declarations: [AppComponent, ClientesComponent],
   imports: [
+    PedidosComponent,
     BrowserModule,
+    CrearPedidoComponent,
     ProductosComponent,
     LoginComponent,
     RegisterComponent,
@@ -44,7 +41,6 @@ const matModules = [
     BrowserAnimationsModule,
     matModules,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

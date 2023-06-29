@@ -1,4 +1,5 @@
 <div style="padding: 5px">
+  <h1>Productos</h1>
   <div style="margin: 10px">
     <label for="images" class="drop-container">
       <span class="drop-title">Subir excel de productos</span>
@@ -21,12 +22,6 @@
 
   <div class="mat-elevation-z8" *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" matSort>
-      <!-- ID Column -->
-      <!-- <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-      </ng-container> -->
-
       <!-- Name Column -->
       <ng-container matColumnDef="descripcion">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
