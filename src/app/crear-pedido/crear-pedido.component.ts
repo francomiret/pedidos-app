@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CrearProductoDialog } from './agregar-producto-dialog';
 import { CommonModule } from '@angular/common';
@@ -47,9 +47,8 @@ export interface Producto {
   ],
 })
 export class CrearPedidoComponent {
-  constructor(public dialog: MatDialog) {
-    localStorage.setItem('pedido', '');
-  }
+  constructor(public dialog: MatDialog, private router: Router) {}
+
   public form: FormGroup = new FormGroup({
     cliente: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
@@ -58,6 +57,7 @@ export class CrearPedidoComponent {
     fechaDeCreacion: new FormControl(Date.now()),
     estado: new FormControl('pendiente', Validators.required),
   });
+
   displayedColumns: string[] = [
     'nombre',
     'precioUnitario',
@@ -65,11 +65,15 @@ export class CrearPedidoComponent {
     'precioTotal',
     'actions',
   ];
+
   dataSource = this.form.controls['productos'].valueChanges;
 
   public crearPedido() {
-    console.log();
-    localStorage.setItem('pedido', this.form.value);
+    console.log(this.form.value);
+    const pedidos: any[] = JSON.parse(localStorage.getItem('pedidos') ?? '[]');
+    pedidos.unshift(this.form.value);
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    this.router.navigate(['']);
   }
 
   openDialog(): void {
