@@ -50,9 +50,9 @@ export interface DialogData {
         <input matInput type="number" formControlName="cantidad" />
       </mat-form-field>
     </div>
-    <div mat-dialog-actions>
+    <div mat-dialog-actions style="justify-content: flex-end;">
       <button mat-button (click)="onNoClick()">CERRAR</button>
-      <button
+      <button 
         mat-raised-button
         color="primary"
         cdkFocusInitial

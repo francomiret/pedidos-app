@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
 import {
-  FormArray,
   FormControl,
   FormGroup,
   FormsModule,
@@ -18,6 +16,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CrearProductoDialog } from './agregar-producto-dialog';
 import { CommonModule } from '@angular/common';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+// import { jsPDF } from 'jspdf';
 
 export interface Producto {
   nombre: string;
@@ -49,6 +49,8 @@ export interface Producto {
 export class CrearPedidoComponent {
   constructor(public dialog: MatDialog, private router: Router) {}
 
+  @ViewChild('elementToCapture') elementToCapture!: ElementRef;
+
   public form: FormGroup = new FormGroup({
     cliente: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
@@ -74,6 +76,7 @@ export class CrearPedidoComponent {
     pedidos.unshift(this.form.value);
     localStorage.setItem('pedidos', JSON.stringify(pedidos));
     this.router.navigate(['']);
+    // this.generatePDF();
   }
 
   openDialog(): void {
@@ -82,10 +85,39 @@ export class CrearPedidoComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.form.controls['productos'].setValue([
-        ...this.form.controls['productos'].value,
-        result,
-      ]);
+      if (result) {
+        this.form.controls['productos'].setValue([
+          ...this.form.controls['productos'].value,
+          result,
+        ]);
+      }
     });
   }
+
+  getTotalCost(productos: any[]) {
+    if (productos) {
+      return productos
+        .map((t) => Number(t.precioTotal))
+        .reduce((acc, value) => acc + value, 0);
+    } else {
+      return 0;
+    }
+  }
+
+  // generatePDF() {
+  //   const doc = new jsPDF('l', 'mm', [1200, 1210]);
+
+  //   const pdfjs = document.querySelector('#div')?.innerHTML;
+
+  //   // Convert HTML to PDF in JavaScript
+  //   if (pdfjs) {
+  //     doc.addHml(pdfjs, {
+  //       callback: function (doc) {
+  //         doc.save('output.pdf');
+  //       },
+  //       x: 10,
+  //       y: 10,
+  //     });
+  //   }
+  // }
 }
