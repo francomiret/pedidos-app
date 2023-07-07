@@ -15,7 +15,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductosComponent } from './productos/productos.component';
-import { ClientesComponent } from './clientes/clientes.component';
 import { CrearPedidoComponent } from './crear-pedido/crear-pedido.component';
 
 const matModules = [
@@ -27,7 +26,7 @@ const matModules = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ClientesComponent],
+  declarations: [AppComponent],
   imports: [
     PedidosComponent,
     BrowserModule,
