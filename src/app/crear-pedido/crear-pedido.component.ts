@@ -1,4 +1,5 @@
 import {
+  FormArray,
   FormControl,
   FormGroup,
   FormsModule,
@@ -17,7 +18,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CrearProductoDialog } from './agregar-producto-dialog';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-// import { jsPDF } from 'jspdf';
 
 export interface Producto {
   nombre: string;
@@ -54,7 +54,7 @@ export class CrearPedidoComponent {
   public form: FormGroup = new FormGroup({
     cliente: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
-    productos: new FormControl([], Validators.required),
+    productos: new FormArray([], Validators.required),
     alcaraciones: new FormControl(''),
     fechaDeCreacion: new FormControl(Date.now()),
     estado: new FormControl('pendiente', Validators.required),
@@ -76,8 +76,12 @@ export class CrearPedidoComponent {
     pedidos.unshift(this.form.value);
     localStorage.setItem('pedidos', JSON.stringify(pedidos));
     this.router.navigate(['']);
-    // this.generatePDF();
   }
+
+public borrar(event: any){
+  console.log(event)
+
+}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CrearProductoDialog, {
@@ -103,21 +107,4 @@ export class CrearPedidoComponent {
       return 0;
     }
   }
-
-  // generatePDF() {
-  //   const doc = new jsPDF('l', 'mm', [1200, 1210]);
-
-  //   const pdfjs = document.querySelector('#div')?.innerHTML;
-
-  //   // Convert HTML to PDF in JavaScript
-  //   if (pdfjs) {
-  //     doc.addHml(pdfjs, {
-  //       callback: function (doc) {
-  //         doc.save('output.pdf');
-  //       },
-  //       x: 10,
-  //       y: 10,
-  //     });
-  //   }
-  // }
 }

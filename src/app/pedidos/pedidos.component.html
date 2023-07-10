@@ -10,102 +10,22 @@
   </a>
   <mat-tab-group>
     <mat-tab label="Pendientes">
-      <div *ngFor="let item of pedidosPendientes">
-        <mat-card style="margin-bottom: 5px; margin-top: 5px">
-          <mat-card-header>
-            <mat-card-title style="display: flex; align-items: center">
-              <mat-icon>account_circle</mat-icon
-              >{{ item.cliente }}</mat-card-title
-            >
-            <mat-card-subtitle
-              >{{ item.direccion }} ~
-              {{ item.fechaDeCreacion | date : "short" }}</mat-card-subtitle
-            >
-          </mat-card-header>
-          <mat-expansion-panel style="margin-top: 5px">
-            <mat-expansion-panel-header>
-              <mat-panel-title> Productos </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div style="overflow: auto">
-              <table mat-table [dataSource]="item.productos">
-                <ng-container matColumnDef="nombre">
-                  <th mat-header-cell *matHeaderCellDef>Nombre</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.nombre }}
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef>Total</td>
-                </ng-container>
-
-                <ng-container matColumnDef="precioUnitario">
-                  <th mat-header-cell *matHeaderCellDef>Precio</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{
-                      element.precioUnitario
-                        | currency : "USD" : "symbol" : "1.0-0"
-                    }}
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-
-                <ng-container matColumnDef="cantidad">
-                  <th mat-header-cell *matHeaderCellDef>Cant</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.cantidad }}
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-
-                <ng-container matColumnDef="precioTotal">
-                  <th mat-header-cell *matHeaderCellDef>Total</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{
-                      element.precioTotal
-                        | currency : "USD" : "symbol" : "1.0-0"
-                    }}
-                  </td>
-                  <td mat-footer-cell *matFooterCellDef>
-                    {{
-                      getTotalCost(item.productos)
-                        | currency : "USD" : "symbol" : "1.0-0"
-                    }}
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumns"
-                ></tr>
-                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-              </table>
-            </div>
-          </mat-expansion-panel>
-          <mat-card-actions style="justify-content: flex-end">
-            <button style="margin-right: 5px" color="primary" mat-raised-button>
-              COMPLETAR
-            </button>
-            <button color="primary" mat-raised-button>DESCARGAR</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </mat-tab>
-    <mat-tab label="Completados">
-      <div *ngFor="let item of pedidosCompletados">
-        <mat-card style="margin-bottom: 5px; margin-top: 5px">
-          <mat-card-header>
-            <mat-card-title style="display: flex; align-items: center">
-              <mat-icon>account_circle</mat-icon
-              >{{ item.cliente }}</mat-card-title
-            >
-            <mat-card-subtitle
-              >{{ item.direccion }} ~
-              {{ item.fechaDeCreacion | date : "short" }}</mat-card-subtitle
-            >
-          </mat-card-header>
-          <mat-expansion-panel style="margin-top: 5px">
-            <mat-expansion-panel-header>
-              <mat-panel-title> Productos </mat-panel-title>
-            </mat-expansion-panel-header>
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="let item of pedidosPendientes; let i = index"
+          [id]="'htmlDataPendiente' + i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ item.cliente }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ item.direccion }} ~
+              {{ item.fechaDeCreacion | date : "shortDate" }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div style="overflow: auto; padding: 5px">
+            <h3>Productos</h3>
             <table mat-table [dataSource]="item.productos">
               <ng-container matColumnDef="nombre">
                 <th mat-header-cell *matHeaderCellDef>Nombre</th>
@@ -118,7 +38,10 @@
               <ng-container matColumnDef="precioUnitario">
                 <th mat-header-cell *matHeaderCellDef>Precio</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.precioUnitario | currency }}
+                  {{
+                    element.precioUnitario
+                      | currency : "USD" : "symbol" : "1.0-0"
+                  }}
                 </td>
                 <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
@@ -134,10 +57,15 @@
               <ng-container matColumnDef="precioTotal">
                 <th mat-header-cell *matHeaderCellDef>Total</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.precioTotal | currency }}
+                  {{
+                    element.precioTotal | currency : "USD" : "symbol" : "1.0-0"
+                  }}
                 </td>
                 <td mat-footer-cell *matFooterCellDef>
-                  {{ getTotalCost(item.productos) | currency }}
+                  {{
+                    getTotalCost(item.productos)
+                      | currency : "USD" : "symbol" : "1.0-0"
+                  }}
                 </td>
               </ng-container>
 
@@ -145,15 +73,103 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
             </table>
-          </mat-expansion-panel>
-          <mat-card-actions style="justify-content: flex-end">
-            <button style="margin-right: 5px" color="primary" mat-raised-button>
-              COMPLETAR
-            </button>
-            <button color="primary" mat-raised-button>DESCARGAR</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
+            <mat-card-actions style="display: flex; justify-content: flex-end">
+              <button
+                style="margin-right: 5px"
+                (click)="completar(item, i)"
+                color="primary"
+                mat-raised-button
+              >
+                COMPLETAR
+              </button>
+              <button
+                color="primary"
+                mat-raised-button
+                (click)="openPDF('htmlDataPendiente' + i)"
+              >
+                DESCARGAR
+              </button>
+            </mat-card-actions>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+    <mat-tab label="Completados">
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="let item of pedidosCompletados; let i = index"
+          [id]="'htmlDataCompletado' + i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ item.cliente }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ item.direccion }} ~
+              {{ item.fechaDeCreacion | date : "shortDate" }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div style="overflow: auto; padding: 5px">
+            <h3>Productos</h3>
+            <table mat-table [dataSource]="item.productos">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.nombre }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef>Total</td>
+              </ng-container>
+
+              <ng-container matColumnDef="precioUnitario">
+                <th mat-header-cell *matHeaderCellDef>Precio</th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                    element.precioUnitario
+                      | currency : "USD" : "symbol" : "1.0-0"
+                  }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef>Cant</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.cantidad }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="precioTotal">
+                <th mat-header-cell *matHeaderCellDef>Total</th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                    element.precioTotal | currency : "USD" : "symbol" : "1.0-0"
+                  }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                  {{
+                    getTotalCost(item.productos)
+                      | currency : "USD" : "symbol" : "1.0-0"
+                  }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            </table>
+            <mat-card-actions style="justify-content: flex-end; display: flex">
+              <button
+                color="primary"
+                mat-raised-button
+                (click)="openPDF('htmlDataCompletado' + i)"
+              >
+                DESCARGAR
+              </button>
+            </mat-card-actions>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-tab>
   </mat-tab-group>
 </div>

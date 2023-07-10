@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-pedidos',
@@ -52,5 +54,28 @@ export class PedidosComponent {
     return productos
       .map((t) => Number(t.precioTotal))
       .reduce((acc, value) => acc + value, 0);
+  }
+
+  public completar(item: any, index: number) {
+    this.pedidosPendientes.splice(index, 1);
+    console.log(this.pedidosPendientes)
+    this.pedidosCompletados.push({ ...item, estado: 'completado' });
+    localStorage.setItem(
+      'pedidos',
+      JSON.stringify([...this.pedidosPendientes, ...this.pedidosCompletados])
+    );
+  }
+
+  public openPDF(id: string): void {
+    let DATA: any = document.getElementById(id);
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 100;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save('pedido.pdf');
+    });
   }
 }

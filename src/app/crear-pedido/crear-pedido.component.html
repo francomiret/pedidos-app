@@ -92,6 +92,8 @@
   </div>
 </div>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item><mat-icon>edit</mat-icon> Editar</button>
-  <button mat-menu-item><mat-icon>delete</mat-icon> Borrar</button>
+  <!-- <button mat-menu-item><mat-icon>edit</mat-icon> Editar</button> -->
+  <button mat-menu-item (click)="borrar($event)">
+    <mat-icon>delete</mat-icon> Borrar
+  </button>
 </mat-menu>
