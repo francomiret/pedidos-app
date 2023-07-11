@@ -54,7 +54,7 @@ export class CrearPedidoComponent {
   public form: FormGroup = new FormGroup({
     cliente: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
-    productos: new FormArray([], Validators.required),
+    productos: new FormControl([], Validators.required),
     alcaraciones: new FormControl(''),
     fechaDeCreacion: new FormControl(Date.now()),
     estado: new FormControl('pendiente', Validators.required),
@@ -71,17 +71,20 @@ export class CrearPedidoComponent {
   dataSource = this.form.controls['productos'].valueChanges;
 
   public crearPedido() {
-    console.log(this.form.value);
     const pedidos: any[] = JSON.parse(localStorage.getItem('pedidos') ?? '[]');
     pedidos.unshift(this.form.value);
     localStorage.setItem('pedidos', JSON.stringify(pedidos));
     this.router.navigate(['']);
   }
 
-public borrar(event: any){
-  console.log(event)
-
-}
+  public borrar(index: any) {
+    const deleteItem = confirm('¿Desea quitar el poroducto?');
+    if (deleteItem) {
+      const data = this.form.controls['productos'].value;
+      data.splice(index, 1);
+      this.form.controls['productos'].setValue(data);
+    }
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CrearProductoDialog, {

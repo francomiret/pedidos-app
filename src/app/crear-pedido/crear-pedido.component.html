@@ -64,9 +64,9 @@
       </ng-container>
       <ng-container matColumnDef="actions" stickyEnd>
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-icon-button (click)="borrar(i)">
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
@@ -91,9 +91,3 @@
     </button>
   </div>
 </div>
-<mat-menu #menu="matMenu">
-  <!-- <button mat-menu-item><mat-icon>edit</mat-icon> Editar</button> -->
-  <button mat-menu-item (click)="borrar($event)">
-    <mat-icon>delete</mat-icon> Borrar
-  </button>
-</mat-menu>

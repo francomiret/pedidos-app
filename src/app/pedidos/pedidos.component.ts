@@ -57,25 +57,30 @@ export class PedidosComponent {
   }
 
   public completar(item: any, index: number) {
-    this.pedidosPendientes.splice(index, 1);
-    console.log(this.pedidosPendientes)
-    this.pedidosCompletados.push({ ...item, estado: 'completado' });
-    localStorage.setItem(
-      'pedidos',
-      JSON.stringify([...this.pedidosPendientes, ...this.pedidosCompletados])
-    );
+    const completarPedido = confirm('¿Desea completar este pedido?');
+    if (completarPedido) {
+      this.pedidosPendientes.splice(index, 1);
+      this.pedidosCompletados.push({ ...item, estado: 'completado' });
+      localStorage.setItem(
+        'pedidos',
+        JSON.stringify([...this.pedidosPendientes, ...this.pedidosCompletados])
+      );
+    }
   }
 
   public openPDF(id: string): void {
-    let DATA: any = document.getElementById(id);
-    html2canvas(DATA).then((canvas) => {
-      let fileWidth = 100;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png');
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-      PDF.save('pedido.pdf');
-    });
+    const descargarPDF = confirm('¿Desea descargar el pedido en PDF?');
+    if (descargarPDF) {
+      let DATA: any = document.getElementById(id);
+      html2canvas(DATA).then((canvas) => {
+        let fileWidth = 100;
+        let fileHeight = (canvas.height * fileWidth) / canvas.width;
+        const FILEURI = canvas.toDataURL('image/png');
+        let PDF = new jsPDF('p', 'mm', 'a4');
+        let position = 0;
+        PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+        PDF.save('pedido.pdf');
+      });
+    }
   }
 }
