@@ -39,7 +39,6 @@ export class ClientesComponent implements AfterViewInit {
       clientes = JSON.parse(localStorageData);
     }
 
-    // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(clientes);
   }
 

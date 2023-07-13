@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -28,16 +28,9 @@ import html2canvas from 'html2canvas';
 })
 export class PedidosComponent {
   constructor() {
-    this.pedidosPendientes = JSON.parse(
-      localStorage.getItem('pedidos') ?? '[]'
-    )?.filter((x: any) => x.estado === 'pendiente');
-
-    this.pedidosCompletados = JSON.parse(
-      localStorage.getItem('pedidos') ?? '[]'
-    )?.filter((x: any) => x.estado === 'completado');
+    this.pedidos = JSON.parse(localStorage.getItem('pedidos') ?? '[]');
   }
-  public pedidosPendientes: any[] = [];
-  public pedidosCompletados: any[] = [];
+  public pedidos: any[] = [];
 
   public getDataSource(item: any) {
     return [...item.productos];
@@ -54,18 +47,6 @@ export class PedidosComponent {
     return productos
       .map((t) => Number(t.precioTotal))
       .reduce((acc, value) => acc + value, 0);
-  }
-
-  public completar(item: any, index: number) {
-    const completarPedido = confirm('¿Desea completar este pedido?');
-    if (completarPedido) {
-      this.pedidosPendientes.splice(index, 1);
-      this.pedidosCompletados.push({ ...item, estado: 'completado' });
-      localStorage.setItem(
-        'pedidos',
-        JSON.stringify([...this.pedidosPendientes, ...this.pedidosCompletados])
-      );
-    }
   }
 
   public openPDF(id: string): void {

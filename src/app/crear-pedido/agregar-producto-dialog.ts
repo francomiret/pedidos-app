@@ -113,10 +113,8 @@ export class CrearProductoDialog {
     this.dialogRef.close();
   }
   agregarProducto(): void {
-    console.log(this.form.value['nombre']);
     const precioProducto = (
       this.productos.find((x) => {
-        console.log(x);
         return x.descripcion === this.form.value['nombre'];
       }) as any
     )?.final;

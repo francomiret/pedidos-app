@@ -1,5 +1,4 @@
 import {
-  FormArray,
   FormControl,
   FormGroup,
   FormsModule,
@@ -17,7 +16,9 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CrearProductoDialog } from './agregar-producto-dialog';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 export interface Producto {
   nombre: string;
@@ -43,21 +44,28 @@ export interface Producto {
     MatIconModule,
     RouterModule,
     MatDialogModule,
+    MatAutocompleteModule,
     CommonModule,
   ],
 })
 export class CrearPedidoComponent {
-  constructor(public dialog: MatDialog, private router: Router) {}
+  constructor(public dialog: MatDialog, private router: Router) {
+    const localStorageData = localStorage.getItem('clientes') ?? '[]';
+    this.clientes = JSON.parse(localStorageData);
 
-  @ViewChild('elementToCapture') elementToCapture!: ElementRef;
+    this.filteredOptions = this.form.controls['cliente'].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+  }
+  public filteredOptions?: Observable<string[]>;
+  public clientes = [];
 
   public form: FormGroup = new FormGroup({
     cliente: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
     productos: new FormControl([], Validators.required),
-    alcaraciones: new FormControl(''),
     fechaDeCreacion: new FormControl(Date.now()),
-    estado: new FormControl('pendiente', Validators.required),
   });
 
   displayedColumns: string[] = [
@@ -84,6 +92,21 @@ export class CrearPedidoComponent {
       data.splice(index, 1);
       this.form.controls['productos'].setValue(data);
     }
+  }
+
+  public clienteSeleccionado(event: any) {
+    const cliente: any = this.clientes.find(
+      (x: any) => x.nombre === event.option.value
+    );
+    this.form.controls['direccion'].setValue(cliente?.direccion ?? '');
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.clientes
+      .map((x: any) => x.nombre)
+      .filter((option) => option.toLowerCase().includes(filterValue));
   }
 
   openDialog(): void {
