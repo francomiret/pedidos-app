@@ -52,7 +52,7 @@ export interface DialogData {
     </div>
     <div mat-dialog-actions style="justify-content: flex-end;">
       <button mat-button (click)="onNoClick()">CERRAR</button>
-      <button 
+      <button
         mat-raised-button
         color="primary"
         cdkFocusInitial
@@ -92,7 +92,7 @@ export class CrearProductoDialog {
     public dialogRef: MatDialogRef<CrearProductoDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    const localStorageData = localStorage.getItem('marquitosData') ?? '';
+    const localStorageData = localStorage.getItem('productos') ?? '[]';
     this.productos = JSON.parse(localStorageData);
 
     this.filteredOptions = this.form.controls['nombre'].valueChanges.pipe(

@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductosComponent } from './productos/productos.component';
 import { CrearPedidoComponent } from './crear-pedido/crear-pedido.component';
+import { ClientesComponent } from './clientes/clientes.component';
 
 const matModules = [
   MatButtonModule,
@@ -32,6 +33,7 @@ const matModules = [
     BrowserModule,
     CrearPedidoComponent,
     ProductosComponent,
+    ClientesComponent,
     LoginComponent,
     RegisterComponent,
     AppRoutingModule,

@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
 import { read, utils } from 'xlsx';
 
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'],
+  selector: 'app-clientes',
+  templateUrl: './clientes.component.html',
+  styleUrls: ['./clientes.component.css'],
   standalone: true,
   imports: [
     MatPaginatorModule,
@@ -25,22 +25,22 @@ import { read, utils } from 'xlsx';
     CommonModule,
   ],
 })
-export class ProductosComponent implements AfterViewInit {
-  displayedColumns: string[] = ['descripcion', 'final'];
+export class ClientesComponent implements AfterViewInit {
+  displayedColumns: string[] = ['nombre', 'direccion'];
   dataSource: MatTableDataSource<unknown>;
   convertedJSON = '';
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   constructor() {
-    let productos = [];
-    if (!!localStorage.getItem('productos')) {
-      const localStorageData = localStorage.getItem('productos') ?? '[]';
-      productos = JSON.parse(localStorageData);
+    let clientes = [];
+    if (!!localStorage.getItem('clientes')) {
+      const localStorageData = localStorage.getItem('clientes') ?? '[]';
+      clientes = JSON.parse(localStorageData);
     }
 
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(productos);
+    this.dataSource = new MatTableDataSource(clientes);
   }
 
   ngAfterViewInit() {
@@ -70,13 +70,13 @@ export class ProductosComponent implements AfterViewInit {
           .map((x: any, index: number) => {
             return {
               id: index,
-              descripcion: x['Descripción'],
-              final: x['Final'],
+              direccion: x['Direccion'],
+              nombre: x['Nombre'],
             };
           });
 
         this.convertedJSON = JSON.stringify(data);
-        localStorage.setItem('productos', this.convertedJSON);
+        localStorage.setItem('clientes', this.convertedJSON);
         this.dataSource = new MatTableDataSource(data);
       });
     };

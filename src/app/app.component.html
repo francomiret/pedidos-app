@@ -23,6 +23,11 @@
           <mat-icon style="margin-right: 5px">inventory</mat-icon> Productos
         </div>
       </mat-list-item>
+      <mat-list-item [routerLink]="['/clientes']" (click)="sidenav.close()">
+        <div style="display: flex; align-items: center">
+          <mat-icon style="margin-right: 5px">account_circle</mat-icon> Clientes
+        </div>
+      </mat-list-item>
     </mat-selection-list>
   </mat-sidenav>
 
